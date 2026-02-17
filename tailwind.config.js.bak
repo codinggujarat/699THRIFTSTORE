@@ -1,0 +1,28 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "#0a0a0a",
+        surface: "#111111",
+        surfaceLight: "#1a1a1a",
+        border: "#2a2a2a",
+        primaryText: "#ffffff",
+        secondaryText: "#888888",
+        accent: "#c0392b",
+        success: "#27ae60",
+        warning: "#f39c12",
+      },
+      fontFamily: {
+        display: ["'Bebas Neue'", "sans-serif"],
+        mono: ["'Space Mono'", "monospace"],
+        body: ["'Inter'", "sans-serif"], 
+      },
+    },
+  },
+  plugins: [],
+}
