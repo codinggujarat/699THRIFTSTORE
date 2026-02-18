@@ -28,6 +28,14 @@ const Shop = () => {
         priceRange: [0, 10000],
     });
 
+    // Update filters when URL category changes
+    React.useEffect(() => {
+        setFilters(prev => ({
+            ...prev,
+            category: category ? [formatCategory(category)] : []
+        }));
+    }, [category]);
+
 
     // Filter Logic
     const filteredProducts = products.filter(product => {
@@ -71,7 +79,7 @@ const Shop = () => {
                     <p className="text-secondaryText font-mono text-xs uppercase tracking-widest mb-4">
                         {sortedProducts.length} Results
                     </p>
-                    <h1 className="text-4xl md:text-8xl font-display text-white uppercase leading-[0.8]">
+                    <h1 className="text-4xl md:text-8xl font-display text-white uppercase leading-[0.8] tracking-tighter mix-blend-difference">
                         {category ? category.replace(/-/g, ' ') : query ? `Search: ${query}` : 'All Products'}
                     </h1>
                 </div>
@@ -79,37 +87,37 @@ const Shop = () => {
                 <div className="flex items-center gap-6">
                     <button
                         onClick={() => setIsFilterOpen(true)}
-                        className="lg:hidden flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-white"
+                        className="lg:hidden flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-white border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-colors"
                     >
-                        <Filter size={16} /> FILTERS
+                        <Filter size={14} /> FILTERS
                     </button>
 
                     <div className="relative group">
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="bg-transparent border-none text-white py-2 pr-8 font-mono text-xs uppercase tracking-widest focus:outline-none appearance-none cursor-pointer"
+                            className="bg-transparent border-none text-white py-2 pr-8 font-mono text-xs uppercase tracking-widest focus:outline-none appearance-none cursor-pointer hover:opacity-70 transition-opacity"
                         >
                             <option value="newest" className="bg-black text-white">Sort By: Newest</option>
                             <option value="price-low" className="bg-black text-white">Price: Low to High</option>
                             <option value="price-high" className="bg-black text-white">Price: High to Low</option>
                             <option value="popular" className="bg-black text-white">Most Popular</option>
                         </select>
-                        <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 text-white pointer-events-none" size={14} />
+                        <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 text-white pointer-events-none" size={12} />
                     </div>
 
-                    <div className="hidden md:flex items-center gap-2">
+                    <div className="hidden md:flex items-center gap-2 border-l border-white/10 pl-6">
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-1 transition-opacity text-white ${viewMode === 'grid' ? 'opacity-100' : 'opacity-30'}`}
+                            className={`p-2 transition-all ${viewMode === 'grid' ? 'text-white' : 'text-secondaryText hover:text-white'}`}
                         >
-                            <LayoutGrid size={18} />
+                            <LayoutGrid size={16} />
                         </button>
                         <button
                             onClick={() => setViewMode('list')}
-                            className={`p-1 transition-opacity text-white ${viewMode === 'list' ? 'opacity-100' : 'opacity-30'}`}
+                            className={`p-2 transition-all ${viewMode === 'list' ? 'text-white' : 'text-secondaryText hover:text-white'}`}
                         >
-                            <List size={20} />
+                            <List size={18} />
                         </button>
                     </div>
                 </div>
@@ -126,19 +134,22 @@ const Shop = () => {
                     />
                 </div>
 
-                {/* Mobile Sidebar Instance (Managed by state) */}
-                <FilterSidebar
-                    isOpen={isFilterOpen}
-                    onClose={() => setIsFilterOpen(false)}
-                    filters={filters}
-                    setFilters={setFilters}
-                />
+                {/* Mobile Sidebar - Only visible when open on mobile */}
+                <div className="lg:hidden">
+                    <FilterSidebar
+                        isOpen={isFilterOpen}
+                        onClose={() => setIsFilterOpen(false)}
+                        filters={filters}
+                        setFilters={setFilters}
+                        isMobile={true}
+                    />
+                </div>
 
 
                 {/* Product Grid */}
                 <div className="flex-1">
                     {sortedProducts.length > 0 ? (
-                        <div className={`grid gap-x-4 gap-y-12 ${viewMode === 'grid' ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
+                        <div className={`grid gap-x-4 gap-y-12 ${viewMode === 'grid' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1'}`}>
                             {sortedProducts.map(product => (
                                 <ProductCard key={product.id} product={product} />
                             ))}

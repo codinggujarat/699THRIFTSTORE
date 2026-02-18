@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 /* 1. Typography Imports - Luxury/Editorial */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 /* 2. Theme Configuration */
 @theme {
   /* Fonts */
-  --font-display: "Playfair Display", serif;
-  --font-body: "Syne", sans-serif;
+  --font-display: "Switzer", sans-serif;
+  --font-body: "Switzer", sans-serif;
   --font-mono: "Inter", sans-serif;
   /* Keeping Inter for ultra-clean small text */
 
@@ -44,7 +44,25 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   cursor: default;
+  text-transform: capitalize;
+  scroll-behavior: smooth;
   /* We will add custom cursor later */
+}
+
+.glass {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* 4. Utilities */
@@ -54,10 +72,37 @@ body {
   }
 
   .container-custom {
-    max-width: 1600px;
-    /* Wider for editorial feel */
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 var(--spacing-container);
+    padding: 0 1rem;
+    /* Mobile first padding */
+  }
+
+  @media (min-width: 768px) {
+    .container-custom {
+      max-width: 1600px;
+      padding: 0 2rem;
+    }
+  }
+
+  /* App specific utilities */
+  .app-card {
+    @apply bg-black rounded-3xl overflow-hidden border border-white/10;
+  }
+
+  .pill-btn {
+    @apply rounded-full px-6 py-3 text-sm font-medium transition-all duration-300;
+  }
+
+  .story-circle {
+    @apply w-16 h-16 rounded-full border-2 border-transparent p-[2px] cursor-pointer transition-all;
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(to right, #fff, #666) border-box;
+  }
+
+  .story-circle.active {
+    background: linear-gradient(black, black) padding-box,
+      linear-gradient(to right, #fff, #fff) border-box;
   }
 
   /* Typography Utilities */
@@ -111,7 +156,7 @@ body {
   }
 
   .container-custom {
-    @apply max-w-[1600px] mx-auto px-6 sm:px-12 lg:px-24;
+    @apply w-full mx-auto px-6 md:px-12 lg:px-24 xl:px-32 max-w-[1920px];
   }
 
   .stroke-text {

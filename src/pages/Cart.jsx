@@ -65,23 +65,23 @@ const Cart = () => {
                                                 <div className="flex items-center border border-white/10">
                                                     <button
                                                         onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
-                                                        className="p-2 hover:bg-white hover:text-black transition-colors"
+                                                        className="p-3 hover:bg-white hover:text-black transition-colors"
                                                         disabled={item.quantity <= 1}
                                                     >
-                                                        <Minus size={14} />
+                                                        <Minus size={12} />
                                                     </button>
                                                     <span className="w-8 text-center font-mono text-xs">{item.quantity}</span>
                                                     <button
                                                         onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
-                                                        className="p-2 hover:bg-white hover:text-black transition-colors"
+                                                        className="p-3 hover:bg-white hover:text-black transition-colors"
                                                     >
-                                                        <Plus size={14} />
+                                                        <Plus size={12} />
                                                     </button>
                                                 </div>
                                             </div>
                                             <button
                                                 onClick={() => removeFromCart(item.id, item.size)}
-                                                className="text-secondaryText hover:text-red-500 transition-colors text-xs underline font-mono uppercase tracking-widest"
+                                                className="text-secondaryText hover:text-red-500 transition-colors text-[10px] underline font-mono uppercase tracking-widest"
                                             >
                                                 Remove
                                             </button>
@@ -94,27 +94,27 @@ const Cart = () => {
 
                     {/* Summary */}
                     <div className="lg:col-span-4">
-                        <div className="bg-surfaceLight p-8 sticky top-32 border border-white/5">
-                            <h2 className="font-display text-xl uppercase tracking-widest mb-6 text-white">Order Summary</h2>
+                        <div className="bg-surfaceLight/50 backdrop-blur-sm p-8 sticky top-32 border border-white/10">
+                            <h2 className="font-display text-xl uppercase tracking-widest mb-8 text-white">Order Summary</h2>
 
-                            <div className="space-y-4 mb-8 font-mono text-xs text-secondaryText border-b border-white/10 pb-6">
+                            <div className="space-y-4 mb-8 font-mono text-xs text-secondaryText border-b border-white/10 pb-8">
                                 <div className="flex justify-between">
-                                    <span>Subtotal</span>
+                                    <span className="uppercase tracking-wide">Subtotal</span>
                                     <span className="text-white">₹{cartTotal}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span>Shipping</span>
+                                    <span className="uppercase tracking-wide">Shipping</span>
                                     <span className="text-white">{finalTotal > 999 ? 'FREE' : '₹99'}</span>
                                 </div>
                                 {discount > 0 && (
-                                    <div className="flex justify-between text-green-400">
-                                        <span>Discount</span>
+                                    <div className="flex justify-between text-white">
+                                        <span className="uppercase tracking-wide">Discount</span>
                                         <span>-₹{Math.round(discount)}</span>
                                     </div>
                                 )}
                             </div>
 
-                            <div className="flex justify-between font-display text-lg uppercase tracking-widest mb-8 text-white">
+                            <div className="flex justify-between font-display text-xl uppercase tracking-widest mb-8 text-white">
                                 <span>Total</span>
                                 <span>₹{finalTotal > 999 ? finalTotal : finalTotal + 99}</span>
                             </div>
@@ -125,14 +125,14 @@ const Cart = () => {
                                     placeholder="PROMO CODE"
                                     value={promoCode}
                                     onChange={(e) => setPromoCode(e.target.value)}
-                                    className="flex-1 bg-transparent border border-white/20 px-3 py-2 text-xs uppercase focus:outline-none focus:border-white text-white placeholder-gray-600"
+                                    className="flex-1 bg-transparent border border-white/20 px-4 py-3 text-xs uppercase focus:outline-none focus:border-white text-white placeholder-gray-600 transition-colors"
                                 />
-                                <button className="bg-white border border-white text-black text-xs font-bold uppercase px-4 hover:bg-transparent hover:text-white transition-colors">Apply</button>
+                                <button className="bg-transparent border border-white text-white text-xs font-bold uppercase px-6 hover:bg-white hover:text-black transition-colors">Apply</button>
                             </form>
 
                             <button
                                 onClick={() => navigate('/checkout')}
-                                className="block w-full py-4 bg-white text-black text-center text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex justify-between items-center px-6"
+                                className="block w-full py-4 bg-white text-black text-center text-xs font-bold uppercase tracking-widest hover:bg-transparent hover:text-white hover:border hover:border-white border border-transparent transition-all flex justify-between items-center px-6"
                             >
                                 Checkout <ArrowRight size={16} />
                             </button>

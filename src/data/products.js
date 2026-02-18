@@ -454,5 +454,24 @@ export const products = [
         description: "Extremely rare Supreme Box Logo tee in white/red.",
         condition: "Like New",
         era: "2010s"
+    },
+    {
+        id: 25,
+        name: "Jeff Hamilton NASCAR Jacket",
+        price: 4999,
+        originalPrice: 8500,
+        category: "Racing Jackets",
+        brand: "Jeff Hamilton",
+        sizes: ["L", "XL"],
+        images: ["https://instagram.famd21-2.fna.fbcdn.net/v/t51.82787-15/634068853_17874517428530773_3614767421653334436_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=MzgzMzYyNzE5NTk5NTE0Nzk4NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTgwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=G3dNPT0rYhsQ7kNvwHC-NVc&_nc_oc=AdmsR3g07tO_ACYtXWwYsrKLyw2HCgvVbmvtaiau6m5Ob7cDdqXsmZnGj9pkGxDVI5Eb_kILZn6v5fVFElAyDWdm&_nc_ad=z-m&_nc_cid=2034&_nc_zt=23&_nc_ht=instagram.famd21-2.fna&_nc_gid=3l3-_rXH4JNezpWg9hkJFw&oh=00_Afv-g-sP9rwiqA0kyce22UTqex4_F2VrMzzuYz6eK3fw6Q&oe=699A7EE7"],
+        tags: ["racing", "hamilton", "leather"],
+        rating: 5.0,
+        reviews: 8,
+        inStock: true,
+        isNew: true,
+        isFeatured: true,
+        description: "Legendary Jeff Hamilton racing jacket. Full leather construction.",
+        condition: "Excellent",
+        era: "90s"
     }
 ];

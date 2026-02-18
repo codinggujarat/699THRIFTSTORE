@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Plus, Heart, Ruler } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -59,30 +59,30 @@ const ProductDetail = () => {
                                 <span>{product.era}</span>
                             </div>
 
-                            <h1 className="text-4xl md:text-5xl font-display text-white mb-6 leading-[0.9] uppercase tracking-wide">{product.name}</h1>
+                            <h1 className="text-4xl md:text-6xl font-display text-white mb-6 leading-[0.9] uppercase tracking-tighter">{product.name}</h1>
 
                             <div className="flex items-baseline gap-4 mb-10 border-b border-white/10 pb-6">
-                                <span className="text-2xl font-body font-bold text-white">₹{product.price}</span>
+                                <span className="text-2xl font-body font-normal tracking-wide text-white">₹{product.price}</span>
                                 {product.originalPrice > product.price && (
                                     <span className="text-sm font-mono text-gray-500 line-through">₹{product.originalPrice}</span>
                                 )}
                             </div>
 
                             {/* Size Selector */}
-                            <div className="mb-10">
+                            <div className="mb-24 lg:mb-10"> {/* Extra margin for mobile sticky bar */}
                                 <div className="flex justify-between items-center mb-4">
                                     <span className="text-xs font-bold tracking-widest uppercase text-secondaryText">Select Size</span>
                                     <button className="text-gray-500 text-[10px] underline font-mono flex items-center gap-1 hover:text-white">
                                         <Ruler size={10} /> SIZE GUIDE
                                     </button>
                                 </div>
-                                <div className="grid grid-cols-5 gap-3">
+                                <div className="flex flex-wrap gap-3">
                                     {product.sizes.map(size => (
                                         <button
                                             key={size}
                                             onClick={() => setSelectedSize(size)}
                                             disabled={!product.inStock}
-                                            className={`aspect-square border flex items-center justify-center font-mono text-sm transition-all ${selectedSize === size ? 'bg-white text-black border-white' : 'border-white/20 text-secondaryText hover:border-white hover:text-white'}`}
+                                            className={`pill-btn min-w-[3rem] border flex items-center justify-center font-mono text-sm transition-all ${selectedSize === size ? 'bg-white text-black border-white' : 'border-white/20 text-secondaryText hover:border-white hover:text-white'}`}
                                         >
                                             {size}
                                         </button>
@@ -91,31 +91,47 @@ const ProductDetail = () => {
                                 {!selectedSize && <p className="text-red-500 text-[10px] mt-2 font-mono uppercase">* Required</p>}
                             </div>
 
-                            {/* Actions */}
-                            <div className="flex gap-4 mb-10">
+                            {/* Actions - Desktop (Hidden on mobile) */}
+                            <div className="hidden md:flex gap-4 mb-12">
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={!product.inStock || !selectedSize}
-                                    className="flex-1 bg-white text-black text-xs font-bold tracking-widest uppercase py-4 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="flex-1 bg-white text-black text-xs font-bold tracking-widest uppercase py-4 rounded-full hover:bg-transparent hover:text-white hover:border-white border border-transparent hover:border transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {product.inStock ? 'Add to Cart' : 'Sold Out'}
                                 </button>
                                 <button
                                     onClick={() => toggleWishlist(product)}
-                                    className={`px-4 border transition-colors flex items-center justify-center ${isWishlisted(product.id) ? 'border-white bg-white text-black' : 'border-white/20 text-white hover:border-white'}`}
+                                    className={`px-6 border rounded-full transition-all flex items-center justify-center ${isWishlisted(product.id) ? 'border-white bg-white text-black' : 'border-white/20 text-white hover:border-white'}`}
                                 >
                                     <Heart size={18} fill={isWishlisted(product.id) ? "currentColor" : "none"} />
+                                </button>
+                            </div>
+
+                            {/* Actions - Mobile Sticky Bottom Bar */}
+                            <div className="md:hidden fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-md border-t border-white/10 p-4 z-50 flex items-center gap-4">
+                                <Link to="/cart" className="relative group">
+                                    <div className="p-3 border border-white/20 rounded-full">
+                                        <Heart size={20} className={isWishlisted(product.id) ? "text-red-500 fill-red-500" : "text-white"} onClick={(e) => { e.preventDefault(); toggleWishlist(product) }} />
+                                    </div>
+                                </Link>
+                                <button
+                                    onClick={handleAddToCart}
+                                    disabled={!product.inStock || !selectedSize}
+                                    className="flex-1 bg-white text-black text-xs font-bold tracking-widest uppercase py-4 rounded-full disabled:opacity-50"
+                                >
+                                    {product.inStock ? (selectedSize ? `Add to Cart - ₹${product.price}` : 'Select Size') : 'Sold Out'}
                                 </button>
                             </div>
 
                             {/* Accordions */}
                             <div className="border-t border-white/10">
                                 <button
-                                    className="w-full py-4 flex justify-between items-center text-xs font-bold tracking-widest uppercase hover:text-secondaryText transition-colors text-white"
+                                    className="w-full py-5 flex justify-between items-center text-xs font-bold tracking-widest uppercase hover:text-secondaryText transition-colors text-white"
                                     onClick={() => setActiveTab(activeTab === 'desc' ? '' : 'desc')}
                                 >
                                     Description
-                                    <Plus size={16} className={`transition-transform duration-300 ${activeTab === 'desc' ? 'rotate-45' : ''}`} />
+                                    <Plus size={14} className={`transition-transform duration-300 ${activeTab === 'desc' ? 'rotate-45' : ''}`} />
                                 </button>
                                 <div className={`overflow-hidden transition-all duration-500 ${activeTab === 'desc' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                                     <p className="text-secondaryText font-body text-sm leading-7 pb-6">
@@ -128,11 +144,11 @@ const ProductDetail = () => {
                             </div>
                             <div className="border-t border-white/10 border-b">
                                 <button
-                                    className="w-full py-4 flex justify-between items-center text-xs font-bold tracking-widest uppercase hover:text-secondaryText transition-colors text-white"
+                                    className="w-full py-5 flex justify-between items-center text-xs font-bold tracking-widest uppercase hover:text-secondaryText transition-colors text-white"
                                     onClick={() => setActiveTab(activeTab === 'ship' ? '' : 'ship')}
                                 >
                                     Shipping & Returns
-                                    <Plus size={16} className={`transition-transform duration-300 ${activeTab === 'ship' ? 'rotate-45' : ''}`} />
+                                    <Plus size={14} className={`transition-transform duration-300 ${activeTab === 'ship' ? 'rotate-45' : ''}`} />
                                 </button>
                                 <div className={`overflow-hidden transition-all duration-500 ${activeTab === 'ship' ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                                     <p className="text-secondaryText font-body text-sm leading-7 pb-6">

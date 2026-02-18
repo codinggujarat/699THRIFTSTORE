@@ -59,91 +59,69 @@ const Home = () => {
         <div ref={containerRef} className="min-h-screen bg-background text-white overflow-hidden selection:bg-white selection:text-black">
 
             {/* 1. Hero Section - Full Screen Editorial */}
-            <section ref={heroRef} className="relative h-screen w-full flex flex-col justify-end pb-20 px-6 md:px-12">
+            <section ref={heroRef} className="relative h-[100svh] w-full flex flex-col justify-end pb-12 px-6 md:px-12">
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1658763728799-18ce1edab939?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                         className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-[2s]"
                         alt="Campaign"
                     />
-                    <div className="absolute inset-0 bg-black/40"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 </div>
 
-                <div ref={heroTextRef} className="relative z-10 max-w-[1600px] w-full mx-auto">
-                    <p className="hero-subtitle text-white font-mono text-xs uppercase tracking-[0.2em] mb-4">Fall / Winter 2026</p>
-                    <h1 className="text-white font-display text-[12vw] leading-[0.85] tracking-tighter mix-blend-difference overflow-hidden">
-                        <span className="flex flex-wrap gap-x-4">
-                            {"NEW".split("").map((c, i) => <span key={i} className="hero-title-char inline-block">{c}</span>)}
-                            {"COLLECTION".split("").map((c, i) => <span key={i} className="hero-title-char inline-block">{c}</span>)}
-                        </span>
-                    </h1>
-                    <div className="mt-8 flex items-center justify-between border-t border-white/30 pt-6">
-                        <Link to="/shop" className="hero-subtitle bg-white text-black px-12 py-4 font-body text-xs tracking-widest hover:bg-transparent hover:text-white hover:border hover:border-white transition-all uppercase">
-                            Shop The Drop
-                        </Link>
+                <div ref={heroTextRef} className="relative z-10 max-w-[1800px] w-full mx-auto">
+                    <div className="flex justify-between items-end mb-6">
+                        <p className="hero-subtitle text-white font-mono text-xs uppercase tracking-[0.2em]">Fall / Winter 2026</p>
                         <p className="hero-subtitle text-white font-mono text-xs hidden md:block w-64 text-right">
                             DEFINING THE NEW STANDARD OF VINTAGE LUXURY.
                         </p>
                     </div>
+
+                    <h1 className="text-white font-display text-[15vw] leading-[0.8] tracking-tighter mix-blend-difference overflow-hidden -ml-2">
+                        <span className="flex flex-wrap gap-x-8">
+                            {"NEW".split("").map((c, i) => <span key={i} className="hero-title-char inline-block">{c}</span>)}
+                            {"COLLECTION".split("").map((c, i) => <span key={i} className="hero-title-char inline-block">{c}</span>)}
+                        </span>
+                    </h1>
+                    <div className="mt-8 flex items-center gap-6">
+                        <Link to="/shop" className="hero-subtitle bg-white text-black px-12 py-4 font-body text-sm tracking-widest hover:bg-transparent hover:text-white hover:border hover:border-white transition-all uppercase">
+                            Shop The Drop
+                        </Link>
+                        <Link to="/about" className="hero-subtitle border border-white text-white px-12 py-4 font-body text-sm tracking-widest hover:bg-white hover:text-black transition-all uppercase">
+                            View Lookbook
+                        </Link>
+                    </div>
                 </div>
             </section>
 
-            {/* 2. Minimal Marquee */}
-            <div className="border-b border-white/10 py-4 bg-background">
-                <Marquee text="NEW ARRIVALS • WORLDWIDE SHIPPING • AUTHENTIC VINTAGE • " className="text-white" />
+            {/* 2. Stories Section (Mobile App Style) */}
+            <div className="pt-24 pb-4 overflow-x-auto hide-scrollbar border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-[60px] z-40 md:hidden">
+                <div className="flex gap-4 px-4 w-max">
+                    {['New In', 'Best', 'Jackets', 'Pants', 'Tees', 'Accs', 'Sale'].map((story, i) => (
+                        <div key={i} className="flex flex-col items-center gap-2 group cursor-pointer">
+                            <div className={`story-circle ${i === 0 ? 'active' : ''}`}>
+                                <img
+                                    src={`https://source.unsplash.com/random/100x100?fashion,${story}`}
+                                    alt={story}
+                                    className="w-full h-full rounded-full object-cover border-2 border-black"
+                                    onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=100&h=100&fit=crop'}
+                                />
+                            </div>
+                            <span className="text-[10px] uppercase tracking-wide text-gray-300 group-hover:text-white">{story}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {/* 3. Editorial Category Grid */}
-            <section className="editorial-section py-32 container-custom">
-                <div className="flex flex-col md:flex-row gap-20">
-                    <div className="md:w-1/3 pt-20">
-                        <h2 className="text-4xl md:text-6xl font-display mb-8 text-white">THE EDIT</h2>
-                        <p className="font-body text-sm text-secondaryText leading-relaxed max-w-xs mb-10">
-                            Curated selections from our archivists. Pieces that define eras and transcend trends.
-                        </p>
-                        <ul className="space-y-4 font-body text-sm tracking-widest uppercase text-white">
-                            {['Racing Jackets', 'Varsity', 'Leather', 'Workwear'].map(cat => (
-                                <li key={cat}>
-                                    <Link to={`/shop`} className="flex items-center justify-between border-b border-white/10 py-4 hover:pl-4 transition-all group hover:text-white hover:border-white">
-                                        {cat} <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="md:w-2/3 grid grid-cols-2 gap-4">
-                        <Link to="/shop/racing-jackets" className="group relative block aspect-[3/4] overflow-hidden bg-surfaceLight">
-                            <img src="https://images.unsplash.com/photo-1752348511894-5dc166ce9b8f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D%3D" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="Racing" />
-                            <div className="absolute bottom-6 left-6 bg-black/80 px-4 py-2 text-xs tracking-widest uppercase text-white border border-white/20">Racing</div>
-                        </Link>
-                        <Link to="/shop/varsity-jackets" className="group relative block aspect-[3/4] overflow-hidden bg-surfaceLight mt-20">
-                            <img src="https://images.unsplash.com/photo-1663374723561-885d23959717?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="Varsity" />
-                            <div className="absolute bottom-6 left-6 bg-black/80 px-4 py-2 text-xs tracking-widest uppercase text-white border border-white/20">Varsity</div>
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* 4. Full Width Feature */}
-            <section className="editorial-section relative h-[80vh] w-full overflow-hidden my-20">
-                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2076&auto=format&fit=crop" className="w-full h-full object-cover grayscale opacity-60" alt="Campaign" />
-                <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center">
-                    <h2 className="text-white font-display text-8xl md:text-[10rem] leading-none mix-blend-difference">ARCHIVE</h2>
-                    <Link to="/shop" className="mt-8 border border-white text-white px-10 py-3 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors">
-                        Explore The Vault
-                    </Link>
-                </div>
-            </section>
-
-            {/* 5. Product Carousel (New Arrivals) */}
-            <section className="editorial-section py-20 bg-surfaceLight border-y border-white/5">
+            {/* 3. Feed / Grid Section */}
+            <section className="editorial-section py-8 md:py-20 bg-background min-h-screen">
                 <div className="container-custom">
-                    <div className="flex justify-between items-end mb-12">
-                        <h3 className="font-display text-4xl text-white">JUST LANDED</h3>
+                    <div className="flex justify-between items-end mb-8 px-4 md:px-0">
+                        <h3 className="font-display text-2xl md:text-4xl text-white">HEADLINES</h3>
                         <Link to="/shop" className="text-xs tracking-widest border-b border-white pb-1 uppercase text-white hover:text-gray-300 hover:border-gray-300 transition-colors">View All</Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 gap-y-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6">
                         {newArrivals.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}

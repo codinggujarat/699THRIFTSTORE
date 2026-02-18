@@ -1,60 +1,92 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 
 const ProductCard = ({ product }) => {
-    const { addToCart } = useCart();
     const { isWishlisted, toggleWishlist } = useWishlist();
-
-    const handleAddToCart = (e) => {
-        e.preventDefault();
-        if (product.sizes && product.sizes.length > 0) {
-            addToCart(product, product.sizes[0]);
-        }
-    };
 
     const handleWishlist = (e) => {
         e.preventDefault();
         toggleWishlist(product);
     }
 
+    // Random likes for demo
+    const likes = Math.floor(Math.random() * 500) + 50;
+
     return (
-        <Link to={`/product/${product.id}`} className="group block h-full">
-            <div className="relative aspect-[3/4] overflow-hidden bg-surfaceLight mb-4">
+        <div className="app-card flex flex-col h-full bg-black">
+            {/* Header: User/Brand */}
+            <div className="flex justify-between items-center px-4 py-3">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-red-500 p-[2px]">
+                        <img
+                            src={`https://source.unsplash.com/random/100x100?portrait,${product.id}`}
+                            alt="User"
+                            className="w-full h-full rounded-full object-cover border border-black"
+                            onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop'}
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-sm font-bold text-white leading-none">{product.brand || '699_Thrift'}</span>
+                        <span className="text-[10px] text-gray-400">Sponsored</span>
+                    </div>
+                </div>
+                <MoreHorizontal size={20} className="text-white cursor-pointer" />
+            </div>
+
+            {/* Image */}
+            <Link to={`/product/${product.id}`} className="relative aspect-[4/5] bg-surfaceLight overflow-hidden">
                 <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-[0.8s] ease-out group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-
-                {/* Minimal Overlay Badge */}
                 {!product.inStock && (
-                    <div className="absolute top-0 left-0 w-full h-full bg-black/60 flex items-center justify-center">
-                        <span className="text-white font-body text-xs tracking-widest uppercase border border-white px-3 py-1">Sold Out</span>
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center pointer-events-none">
+                        <span className="text-white font-bold text-lg tracking-widest uppercase border-2 border-white px-6 py-2">Sold Out</span>
                     </div>
                 )}
+                {/* Tag Simulation */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+            </Link>
 
-                {/* Hover Actions - Minimal */}
-                <div className="absolute bottom-4 right-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <button
-                        onClick={handleWishlist}
-                        className="bg-black p-3 rounded-full shadow-lg hover:bg-white hover:text-black text-white transition-colors border border-white/10"
-                    >
-                        <Heart size={18} fill={isWishlisted(product.id) ? "currentColor" : "none"} />
+            {/* Action Bar */}
+            <div className="px-4 pt-3 pb-2">
+                <div className="flex justify-between items-center mb-3">
+                    <div className="flex items-center gap-4">
+                        <button onClick={handleWishlist} className="hover:scale-110 transition-transform">
+                            <Heart size={24} fill={isWishlisted(product.id) ? "#ef4444" : "none"} className={isWishlisted(product.id) ? "text-red-500" : "text-white"} strokeWidth={1.5} />
+                        </button>
+                        <button className="hover:scale-110 transition-transform">
+                            <MessageCircle size={24} className="text-white" strokeWidth={1.5} />
+                        </button>
+                        <button className="hover:scale-110 transition-transform">
+                            <Send size={24} className="text-white -rotate-45" strokeWidth={1.5} />
+                        </button>
+                    </div>
+                    <button className="hover:scale-110 transition-transform">
+                        <Bookmark size={24} className="text-white" strokeWidth={1.5} />
                     </button>
                 </div>
-            </div>
 
-            <div className="flex justify-between items-start gap-4">
-                <div>
-                    <h3 className="font-body text-xs tracking-wide text-white uppercase mb-1 group-hover:underline decoration-1 underline-offset-4">{product.name}</h3>
-                    <p className="text-secondaryText text-[10px] font-mono uppercase tracking-widest">{product.brand}</p>
+                {/* Likes */}
+                <p className="text-white text-sm font-bold mb-1">{likes} likes</p>
+
+                {/* Caption */}
+                <div className="text-sm text-gray-300">
+                    <span className="font-bold text-white mr-2">{product.brand}</span>
+                    {product.name} <span className="text-blue-400">#vintage</span> <span className="text-blue-400">#thrift</span>
                 </div>
-                <span className="font-body text-sm text-white">₹{product.price}</span>
+
+                {/* Price Tag */}
+                <p className="text-white font-bold mt-2">₹{product.price}</p>
+
+                <p className="text-[10px] text-gray-500 uppercase mt-1 tracking-wider">View all 12 comments</p>
+                <p className="text-[10px] text-gray-500 uppercase mt-1 tracking-wider">2 HOURS AGO</p>
             </div>
-        </Link>
+        </div>
     );
 };
 
